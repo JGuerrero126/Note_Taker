@@ -11,11 +11,12 @@ notes.post("/", (req, res) => {
   console.info(`${req.method} request received to add a note`);
   console.log(req.body);
 
-  const { body } = req.body;
+  const { title, text } = req.body;
 
   if (req.body) {
     const newNote = {
-      body,
+      title,
+      text,
       tip_id: uuidv4(),
     };
 
