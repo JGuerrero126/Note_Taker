@@ -4,7 +4,7 @@ const notes = require("express").Router();
 
 notes.get("/", (req, res) => {
   console.info(`${req.method} request received for the notes`);
-  fs.readFile("./db/db.json").then((data) => res.json(JSON.parse(data)));
+  fs.readFile("./db/db.json", (err, data) => res.json(JSON.parse(data)));
 });
 
 notes.post("/", (req, res) => {
@@ -27,9 +27,7 @@ notes.post("/", (req, res) => {
       fs.writeFile(`./db/db.json`, JSON.stringify(storedData), (err) =>
         err
           ? console.error(err)
-          : console.log(
-              `Review for ${newReview.product} has been written to JSON file`
-            )
+          : console.log(`Your note has been written to JSON file`)
       );
     });
   }
