@@ -19,7 +19,18 @@ notes.post("/", (req, res) => {
       tip_id: uuidv4(),
     };
 
-    fs.readFile("./db/db.json").then((data) => res.json(JSON.parse(data)));
+    fs.readFile("./db/db.json", (err, data) => {
+      let storedData = JSON.parse(data);
+      storedData.push(newNote);
+
+      fs.writeFile(`./db/db.json`, JSON.stringify(storedData), (err) =>
+        err
+          ? console.error(err)
+          : console.log(
+              `Review for ${newReview.product} has been written to JSON file`
+            )
+      );
+    });
   }
 });
 
