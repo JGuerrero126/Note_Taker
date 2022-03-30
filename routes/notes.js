@@ -2,12 +2,12 @@ const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 const notes = require("express").Router();
 
-notes.get("/", (req, res) => {
+notes.get("/notes", (req, res) => {
   console.info(`${req.method} request received for the notes`);
   fs.readFile("./db/db.json", (err, data) => res.json(JSON.parse(data)));
 });
 
-notes.post("/", (req, res) => {
+notes.post("/notes", (req, res) => {
   console.info(`${req.method} request received to add a note`);
   console.log(req.body);
 
@@ -27,7 +27,7 @@ notes.post("/", (req, res) => {
       fs.writeFile(`./db/db.json`, JSON.stringify(storedData), (err) =>
         err
           ? console.error(err)
-          : console.log(`Your note has been written to JSON file`)
+          : res.json(`Your note has been written to JSON file`)
       );
     });
   }
