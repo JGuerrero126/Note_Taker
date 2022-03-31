@@ -1,6 +1,7 @@
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 const notes = require("express").Router();
+const allNotes = require("../db/db.json");
 
 notes.get("/notes", (req, res) => {
   console.info(`${req.method} request received for the notes`);
@@ -9,7 +10,6 @@ notes.get("/notes", (req, res) => {
 
 notes.post("/notes", (req, res) => {
   console.info(`${req.method} request received to add a note`);
-  console.log(req.body);
 
   const { title, text } = req.body;
 
@@ -17,7 +17,7 @@ notes.post("/notes", (req, res) => {
     const newNote = {
       title,
       text,
-      tip_id: uuidv4(),
+      note_id: uuidv4(),
     };
 
     fs.readFile("./db/db.json", (err, data) => {
@@ -34,3 +34,24 @@ notes.post("/notes", (req, res) => {
 });
 
 module.exports = notes;
+
+notes.delete("/notes/:id", (req, res) => {
+  console.info(`${req.method} request received to remove a note`);
+
+  const note_id = req.params.id;
+  console.log(note_id);
+
+  fs.readFile("./db/db.json", (err, data) => {
+    let storedData = JSON.parse(data);
+    for (i = 0; i < storedData.length; i++) {
+      if (note_id === storedData[i].note_id) {
+        storedData.splice(i, 1);
+        fs.writeFile(`./db/db.json`, JSON.stringify(storedData), (err) =>
+          err
+            ? console.error(err)
+            : res.json(`Your note has been written to JSON file`)
+        );
+      }
+    }
+  });
+});
