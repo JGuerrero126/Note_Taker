@@ -1,7 +1,6 @@
 const { v4: uuidv4 } = require("uuid");
 const fs = require("fs");
 const notes = require("express").Router();
-const allNotes = require("../db/db.json");
 
 notes.get("/notes", (req, res) => {
   console.info(`${req.method} request received for the notes`);
