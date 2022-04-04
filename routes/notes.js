@@ -16,7 +16,7 @@ notes.post("/notes", (req, res) => {
     const newNote = {
       title,
       text,
-      note_id: uuidv4(),
+      id: uuidv4(),
     };
 
     fs.readFile("./db/db.json", (err, data) => {
