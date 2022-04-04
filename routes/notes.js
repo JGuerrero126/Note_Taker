@@ -38,12 +38,12 @@ notes.delete("/notes/:id", (req, res) => {
   console.info(`${req.method} request received to remove a note`);
 
   const note_id = req.params.id;
-  console.log(note_id);
+  console.log(id);
 
   fs.readFile("./db/db.json", (err, data) => {
     let storedData = JSON.parse(data);
     for (i = 0; i < storedData.length; i++) {
-      if (note_id === storedData[i].note_id) {
+      if (note_id === storedData[i].id) {
         storedData.splice(i, 1);
         fs.writeFile(`./db/db.json`, JSON.stringify(storedData), (err) =>
           err
